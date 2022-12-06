@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/tables.css">
+</head>
+<body>
+<form action="/prescriptions">
+    <label for="nameOrSurname">Patient's First Name or Last Name</label>
+    <input type="text" name="nameOrSurname" id="nameOrSurname"><br>
+<label for="genericName">Generic Name</label>
+<select name="genericName" id="genericName">
+    <option>All</option>
+    <option th:each="generic: ${generics}" th:text="${generic.getGeneric()}" th:value="${generic.getGeneric()}">
+    </option>
+</select>
+<br>
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Generic Name</th>
+    <th>Prescription Date</th>
+    <th>Prescription Dosage</th>
+
+    </thead>
+    <tbody>
+    <tr th:each="prescription: ${prescriptions}">
+        <td th:text="${prescription.getFirstName()}"></td>
+        <td th:text="${prescription.getLastName()}"></td>
+        <td th:text="${prescription.getGenericName()}"></td>
+        <td th:text="${prescription.getLocalDate()}"></td>
+        <td th:text="${prescription.getDosage()}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

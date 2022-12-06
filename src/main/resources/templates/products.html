@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/tables.css">
+</head>
+<body>
+<form action="/products">
+<label for="text">Search</label><input type="text"  id="text" name="text">
+    <button type="submit">Search</button>
+</form>
+<table id="table">
+    <thead>
+    <th>Manufacturer</th>
+    <th>Brand Name</th>
+    <th>Price</th>
+    <th>Generic Name</th>
+    </thead>
+
+    <tbody>
+    <tr th:each="brandedDrug: ${brandedDrugs}">
+    <td th:text="${brandedDrug.getManufacturerName()}"></td>
+    <td th:text="${brandedDrug.getBrandedDrugName()}"></td>
+    <td th:text="${brandedDrug.getPrice()}"></td>
+    <td th:text="${brandedDrug.getGeneric()}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
