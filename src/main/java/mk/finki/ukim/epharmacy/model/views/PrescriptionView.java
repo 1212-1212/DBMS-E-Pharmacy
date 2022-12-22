@@ -1,10 +1,8 @@
 package mk.finki.ukim.epharmacy.model.views;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
+import mk.finki.ukim.epharmacy.model.primaryKeys.PrescriptionViewKey;
 import org.hibernate.annotations.Immutable;
 
 import java.time.LocalDate;
@@ -15,6 +13,8 @@ import java.time.LocalDate;
 @Table(name = "list_prescriptions_for_patient")
 public class PrescriptionView {
 
+    @EmbeddedId
+    private PrescriptionViewKey key;
 
     @Column(name = "user_name")
     private String firstName;
@@ -31,9 +31,15 @@ public class PrescriptionView {
     @Column(name = "prescription_dosage")
     private String dosage;
 
-    @Id
+
     @Column(name = "prescription_signature")
     private String signature;
+
+
+
+    @Column(name = "marked_as_used")
+
+    private boolean markedAsUsed;
 
     public PrescriptionView() {
     }

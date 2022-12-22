@@ -5,11 +5,13 @@ package mk.finki.ukim.epharmacy.model.primaryKeys;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
+@Data
 public class BrandedDrugStockKey implements Serializable {
 
     @Override
@@ -27,15 +29,13 @@ public class BrandedDrugStockKey implements Serializable {
 
     private BrandedDrugKey brandedDrugKey;
 
+    @Column(name = "pharmacy_id")
+    private Long pharmacyId;
+
     public BrandedDrugStockKey(BrandedDrugKey brandedDrugKey, Long pharmacyId) {
         this.brandedDrugKey = brandedDrugKey;
         this.pharmacyId = pharmacyId;
     }
-
-    @Column(name = "pharmacy_id")
-    private Long pharmacyId;
-
-
 
     public BrandedDrugStockKey() {
     }

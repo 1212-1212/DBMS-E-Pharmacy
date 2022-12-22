@@ -15,8 +15,7 @@ public class BrandedDrug {
     private BrandedDrugKey brandedDrugKey;
     @Column(name = "branded_drug_name", nullable = false)
     private String brandedDrugName;
-    @Column(name = "branded_drug_expiration_date", nullable = false)
-    private LocalDateTime expirationDate;
+
 
     @ManyToOne
     @MapsId("genericDrugId")
@@ -24,16 +23,15 @@ public class BrandedDrug {
     private GenericDrug genericDrug;
 
 
-    public BrandedDrug(BrandedDrugKey brandedDrugKey, String brandedDrugName, LocalDateTime brandedDrugExpirationDate) {
+    public BrandedDrug(BrandedDrugKey brandedDrugKey, String brandedDrugName)
+    {
         this.brandedDrugKey = brandedDrugKey;
         this.brandedDrugName = brandedDrugName;
-        this.expirationDate = brandedDrugExpirationDate;
     }
 
-    public BrandedDrug(BrandedDrugKey brandedDrugKey, String brandedDrugName, LocalDateTime expirationDate, GenericDrug genericDrug) {
+    public BrandedDrug(BrandedDrugKey brandedDrugKey, String brandedDrugName, GenericDrug genericDrug) {
         this.brandedDrugKey = brandedDrugKey;
         this.brandedDrugName = brandedDrugName;
-        this.expirationDate = expirationDate;
         this.genericDrug = genericDrug;
     }
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Availability in pharmacy by generics</title>
+  <link rel="stylesheet" href="/tables.css">
+
+</head>
+<body>
+<button>
+  <a href="/all-products">All products</a>
+</button>
+<table>
+  <thead>
+  <th>Pharmacy name</th>
+  <th>Street name</th>
+  <th>Flat number</th>
+  <th>Generic Name</th>
+  <th>Total available</th>
+  </thead>
+  <tr th:each="product: ${generics}">
+    <td th:text="${product.getPharmacyName()}"></td>
+    <td th:text="${product.getStreetName()}"></td>
+    <td th:text="${product.getFlatNumber()}"></td>
+    <td th:text="${product.getGenericDrugName()}"></td>
+    <td th:text="${product.getTotalAvailable()}"></td>
+  </tr>
+</table>
+</body>
+</html>

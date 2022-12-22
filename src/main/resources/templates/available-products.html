@@ -1,0 +1,57 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Available products</title>-->
+<!--    <link rel="stylesheet" href="/tables.css">-->
+<!--</head>-->
+<!--<body>-->
+<!--<div>-->
+<!--<form action="/all-products/available-products">-->
+<!--    <label for="quantity">Minimum quantity</label><input type="number" id="quantity" name="quantity"><br>-->
+<!--    <label for="priceLow">Lower bound price range</label><input type="number" id="priceLow" step="any" name="priceLow"><br>-->
+<!--    <label for="priceHigh">Upper bound price range</label><input type="number" id="priceHigh" step="any" name="priceHigh"><br>-->
+<!--    <label for="searchText">Product name</label><input type="text" id="searchText" name="searchText"><br>-->
+<!--    <label for="genericName">Generic Name</label>-->
+<!--    <select name="genericName" id="genericName">-->
+<!--        <option>All</option>-->
+<!--        <option th:each="generic: ${generics}" th:text="${generic.getGeneric()}" th:value="${generic.getGeneric()}">-->
+<!--        </option>-->
+<!--    </select>-->
+<!--    <br>-->
+<!--    <button type="submit">Search</button>-->
+<!--</form>-->
+<!--</div>-->
+<!--<div>-->
+<!--    <a href="/all-products/add-product">Add</a>-->
+<!--</div>-->
+<!--<table>-->
+<!--    <thead>-->
+<!--    <th>Branded Name</th>-->
+<!--    <th>Manufacturer Name</th>-->
+<!--    <th>Generic Name</th>-->
+<!--    <th>Price</th>-->
+<!--    <th>Quantity</th>-->
+<!--    <th>Action</th>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="brandedDrug: ${availableBrandedDrugs}">-->
+<!--        <td th:text="${brandedDrug.getBrandedDrugName()}"></td>-->
+<!--        <td th:text="${brandedDrug.getKey().getManufacturerName()}"></td>-->
+<!--        <td th:text="${brandedDrug.getGenericName()}"></td>-->
+<!--        <td th:text="${brandedDrug.getPrice()}"></td>-->
+<!--        <td th:text="${brandedDrug.getQuantity()}"></td>-->
+<!--        <td><form method="post" th:action="@{'/add-to-shopping-cart/{id}' (id=${brandedDrug.getKey().getBrandedDrugId()})}">-->
+<!--            <input type="number" name="brandedDrugId" th:value="${brandedDrug.getKey().getBrandedDrugId()}" style="visibility: hidden">-->
+<!--            <input type="text" name="manufacturerName" th:value="${brandedDrug.getKey().getManufacturerName()}" style="visibility: hidden">-->
+<!--            <input type="number" name="genericDrugId" th:value="${brandedDrug.getKey().getGenericDrugId()}" style="visibility: hidden">-->
+<!--            <input type="number" name="quantity" th:value="${brandedDrug.getPrice()}" style="visibility: hidden">-->
+<!--            <label>Quantity</label><input type="number" name="quantity" value="1" min="1" th:max="${brandedDrug.getQuantity()}">-->
+<!--            <button type="submit">Add to shopping cart</button>-->
+<!--        </form></td>-->
+<!--    </tr>-->
+
+<!--    </tbody>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->

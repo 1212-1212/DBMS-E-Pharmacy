@@ -1,6 +1,9 @@
 package mk.finki.ukim.epharmacy.web;
 
-import mk.finki.ukim.epharmacy.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import mk.finki.ukim.epharmacy.model.tables.Patient;
+import mk.finki.ukim.epharmacy.service.interfaces.tables.PatientService;
+import mk.finki.ukim.epharmacy.service.interfaces.tables.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/register")
 public class RegisterController {
     private final UserService userService;
+    private final PatientService patientService;
 
-    public RegisterController(UserService userService) {
+    public RegisterController(UserService userService, PatientService patientService) {
         this.userService = userService;
+        this.patientService = patientService;
     }
 
     @GetMapping
@@ -28,9 +33,12 @@ public class RegisterController {
                            @RequestParam String email,
                            @RequestParam String password,
                            @RequestParam String streetName,
-                           @RequestParam Integer  flatNumber)
+                           @RequestParam Integer flatNumber,
+                           @RequestParam HttpServletRequest request)
     {
-        userService.save(username, firstName, lastName, email, password, streetName, flatNumber);
+        Patient patient = new Patient(username, firstName, lastName, email, password, streetName, flatNumber);
+        patientService.save(patient);
+        request.getSession().setAttribute("patient", patient);
         return "redirect:/login";
     }
 }

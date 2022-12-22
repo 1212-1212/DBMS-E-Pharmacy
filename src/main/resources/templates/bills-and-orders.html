@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bills And Orders</title>
+    <link rel="stylesheet" href="/tables.css">
+</head>
+<body>
+<form method="GET" action="/bills-and-orders">
+<label>Quantity low</label><input type="number" name="quantityLow"><br>
+<label>Quantity high</label><input type="number" name="quantityHigh"><br>
+<label>Price low</label><input type="number" name="priceLow"><br>
+<label>Price high</label><input type="number" name="priceHigh"><br>
+<label>Date from</label><input type="datetime-local" name="from"><br>
+<label>Date to</label><input type="datetime-local" name="to"><br>
+<label>Generic name</label>
+    <div th:each="generic: ${generics}">
+    <input type="checkbox" name="genericName" th:value="${generic.getGeneric()}">
+    <label th:text="${generic.getGeneric()}"></label>
+    </div>
+    <br>
+<label>Branded name</label><input type="text" name="brandedName"><br>
+<label>Pharmacy name</label><input type="text" name="pharmacyName"><br>
+    <label>Order status</label>
+    <select name="orderStatus">
+        <option th:each="status: ${statuses}" th:text="${status.toString()}"></option>
+    </select>
+    <label>Show only paid bills</label>
+    <label>True</label>
+    <input type="radio" name="paymentStatus" th:value="${true}">
+    <label>False</label>
+    <input type="radio" name="paymentStatus" th:value="${false}">
+    <button type="submit">Submit</button><br>
+</form>
+
+<table>
+    <thead>
+    <th scope="col">Date of payment </th>
+    <th scope="col">Brand name</th>
+    <th scope="col">Generic name</th>
+    <th scope="col">Price</th>
+    <th scope="col">Quantity</th>
+    <th scope="col">Pharmacy name/Online</th>
+    <th scope="col">Pharmacy Street name/ User Street name</th>
+    <th scope="col">Pharmacy Flat number/ Flat number name</th>
+    <th scope="col">User name</th>
+    <th scope="col">User surname</th>
+    <th scope="col">Order status</th>
+    <th scope="col">Bill payment status</th>
+    </thead>
+    <tr th:each="entry: ${allBillsAndOrders}">
+        <td th:text="${#temporals.format(entry.getLocalDateTime(), format)}"></td>
+        <td th:text="${entry.getBrandedDrugName()}"></td>
+        <td th:text="${entry.getGenericDrugName()}"></td>
+        <td th:text="${entry.getPrice()}"></td>
+        <td th:text="${entry.getQuantity()}"></td>
+        <td th:text="${entry.getLocationName()}"></td>
+        <td th:text="${entry.getStreetName()}"></td>
+        <td th:text="${entry.getFlatNumber()}"></td>
+        <td th:text="${entry.getUserName()}"></td>
+        <td th:text="${entry.getUserSurname()}"></td>
+        <td th:text="${entry.getOrderStatus()}"></td>
+        <td th:text="${entry.isPaymentStatus()}"></td>
+    </tr>
+</table>
+</body>
+</html>

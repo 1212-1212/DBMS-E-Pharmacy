@@ -8,7 +8,7 @@ import mk.finki.ukim.epharmacy.model.primaryKeys.BrandedDrugStockKey;
 
 @Data
 @Entity
-@Table(name = "branded_drug_in_stock")
+@Table(name = "in_stock")
 public class BrandedDrugStock {
 
     @EmbeddedId

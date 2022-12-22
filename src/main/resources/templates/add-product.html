@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Add product</title>
 </head>
 <body>
-<form th:method="POST" action="/brandedDrugs/add-product">
+<form th:method="POST" action="/all-products/add-product">
  <label>Manufacturer Name</label>   <input type="text" name="manufacturerName"><br>
  <label>Branded Drug Name</label>   <input type="text" name="brandedDrugName"><br>
- <label>Generic Name</label>   <input type="text" name="genericDrugName"><br>
+ <label>Generic Name</label>
+    <select name="genericDrugName">
+        <option th:each="generic: ${generics}" th:text="${generic.getGeneric()}"></option>
+    </select>
     <button type="submit">Submit</button>
 </form>
 </body>

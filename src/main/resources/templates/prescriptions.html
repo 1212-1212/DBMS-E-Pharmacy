@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Prescription</title>
     <link rel="stylesheet" href="/tables.css">
 </head>
 <body>
@@ -16,6 +16,9 @@
     </option>
 </select>
 <br>
+    <label>Show only already used prescriptions</label><br>
+    <label>True</label><input type="radio" name="markedAsUsed" th:value="${true}">
+    <label>False</label><input type="radio" name="markedAsUsed" th:value="${false}">
     <button type="submit">Search</button>
 </form>
 
@@ -26,6 +29,7 @@
     <th>Generic Name</th>
     <th>Prescription Date</th>
     <th>Prescription Dosage</th>
+    <th>Used</th>
 
     </thead>
     <tbody>
@@ -35,6 +39,7 @@
         <td th:text="${prescription.getGenericName()}"></td>
         <td th:text="${prescription.getLocalDate()}"></td>
         <td th:text="${prescription.getDosage()}"></td>
+        <td th:text="${prescription.isMarkedAsUsed()}"></td>
     </tr>
     </tbody>
 </table>

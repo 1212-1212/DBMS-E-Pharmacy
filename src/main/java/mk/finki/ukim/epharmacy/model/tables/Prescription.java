@@ -37,14 +37,20 @@ public class Prescription {
 
     private Patient patient;
 
-    public Prescription(LocalDate date, String dosage, String signature, GenericDrug genericDrug, Patient patient) {
+    @Column(name = "marked_as_used")
+    private boolean markedAsUsed;
+
+    public Prescription(LocalDate date, String dosage, String signature, GenericDrug genericDrug, Patient patient, boolean markedAsUsed) {
         this.date = date;
         this.dosage = dosage;
         this.signature = signature;
         this.genericDrug = genericDrug;
         this.patient = patient;
+        this.markedAsUsed= markedAsUsed;
     }
 
     public Prescription() {
     }
+
+
 }

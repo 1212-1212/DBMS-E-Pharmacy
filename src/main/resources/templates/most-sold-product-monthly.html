@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Most sold product monthly</title>
+  <link rel="stylesheet" href="/tables.css">
+</head>
+<body>
+<table>
+  <thead>
+  <th>Month</th>
+  <th>Manufacturer name</th>
+  <th>Branded name</th>
+  <th>Generic name</th>
+  <th>Maximum sold</th>
+  </thead>
+  <tr th:each="entry: ${entries}">
+    <td th:text="${entry.getKey().getMonth()}"></td>
+    <td th:text="${entry.getKey().getManufacturerName()}"></td>
+    <td th:text="${entry.getBrandedDrugName()}"></td>
+    <td th:text="${entry.getGenericDrugName()}"></td>
+    <td th:text="${entry.getTotalSold()}"></td>
+  </tr>
+</table>
+</body>
+</html>

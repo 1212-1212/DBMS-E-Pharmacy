@@ -11,18 +11,14 @@ import org.hibernate.annotations.Immutable;
 @Data
 public class BrandedDrugsView {
 
-    @Column(name = "manufacturer_name")
-    private String manufacturerName;
+    @EmbeddedId
+    private BrandedDrugKey key;
 
-    @Id
     @Column(name = "branded_drug_name")
     private String brandedDrugName;
 
-    @Column(name = "price")
-    private float price;
-
     @Column(name = "generic")
-    private String generic;
+    private String genericName;
 
     public BrandedDrugsView() {
     }

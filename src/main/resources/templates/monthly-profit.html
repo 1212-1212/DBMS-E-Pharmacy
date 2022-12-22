@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monthly profit</title>
+    <link rel="stylesheet" href="/tables.css">
+</head>
+<body>
+<button>
+    <a href="/all-products">All products</a>
+</button>
+<table>
+    <thead>
+    <th>Month</th>
+    <th>Total profit</th>
+    <th>Pharmacy name/Online</th>
+    <th>Street name</th>
+    <th>Flat number</th>
+    <th>Total payments</th>
+    </thead>
+    <tr th:each="entry: ${entries}">
+        <td th:text="${entry.getKey().getMonth()}"></td>
+        <td th:text="${entry.getTotalProfit()}"></td>
+        <td th:text="${entry.getPharmacyName()}"></td>
+        <td th:text="${entry.getStreetName()}"></td>
+        <td th:text="${entry.getFlatNumber()}"></td>
+        <td th:text="${entry.getTotalPayments()}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

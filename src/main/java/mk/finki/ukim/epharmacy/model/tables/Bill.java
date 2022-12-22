@@ -21,7 +21,7 @@ public class Bill {
 
 
     @ManyToOne
-    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id" ,nullable = false)
+    @JoinColumn(name = "pharmacy_id", referencedColumnName = "pharmacy_id")
     private Pharmacy pharmacy;
 
     @ManyToOne
@@ -29,11 +29,28 @@ public class Bill {
 
     private Patient patient;
 
+    @Column(name = "payment_status")
+    private boolean paymentStatus;
 
-    public Bill(LocalDateTime dateTime, Pharmacy pharmacy, Patient patient) {
+    public Bill(LocalDateTime dateTime, Pharmacy pharmacy, Patient patient, boolean paymentStatus) {
         this.dateTime = dateTime;
         this.pharmacy = pharmacy;
         this.patient = patient;
+        this.paymentStatus = paymentStatus;
+    }
+
+    public Bill(Long billId, LocalDateTime dateTime, Patient patient, boolean paymentStatus) {
+        this.billId = billId;
+        this.dateTime = dateTime;
+        this.patient = patient;
+        this.paymentStatus=paymentStatus;
+    }
+
+
+    public Bill(LocalDateTime dateTime, Patient patient, boolean paymentStatus) {
+        this.dateTime = dateTime;
+        this.patient = patient;
+        this.paymentStatus = paymentStatus;
     }
 
     public Bill() {
