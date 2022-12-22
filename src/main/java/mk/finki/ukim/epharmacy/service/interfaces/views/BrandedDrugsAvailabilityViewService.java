@@ -10,14 +10,13 @@ public interface BrandedDrugsAvailabilityViewService {
     List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByQuantityGreaterThan(Integer quantity);
     List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPriceBetween(Float low, Float high);
 
-    List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPharmacyName(String pharmacyName);
+    List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPharmacyNameContainingIgnoreCase(String pharmacyName);
 
 
-    List<BrandedDrugsAvailabilityView> findByPriceRangeQuantityAndText(Integer quantity, Float low, Float high, String text, String genericName);
 
-    List<BrandedDrugsAvailabilityView> findByPriceRangeQuantityAndTextAndPharmacyName(Integer quantity, Float low, Float high, String text, String genericName, String pharmacyName);
+    List<BrandedDrugsAvailabilityView> findByPriceRangeQuantityAndTextAndPharmacyName(Integer quantity, Float low, Float high, String brandedName, String genericName, String pharmacyName);
 
-    List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityBySearchText(String text);
+    List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByBrandedDrugNameContainingIgnoreCase(String brandedName);
 
     List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByGenericName(String genericName);
 

@@ -43,16 +43,11 @@ public class ShoppingCartController {
 
     @GetMapping
     public String getPage(HttpServletRequest request, Model model) {
-        initializeOrder(request);
+        orderService.initializeOrder(request);
         if (request.getSession().getAttribute("map") != null) {
             Map<Long, HashSet<OrderShoppingCart>> map = (Map<Long, HashSet<OrderShoppingCart>>) request.getSession().getAttribute("map");
-            Set<OrderShoppingCart> products = map.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
-            Map<Long, String> genericsMap = genericDrugService.findAll()
-                    .stream()
-                    .collect(Collectors.toMap(
-                            GenericDrug::getGenericDrugId,
-                            GenericDrug::getGeneric
-                    ));
+            Set<OrderShoppingCart> products = orderShoppingCartService.flatMapToSet(map.values().stream());
+            Map<Long, String> genericsMap = genericDrugService.toMap();
             model.addAttribute("genericsMap", genericsMap);
             model.addAttribute("products", products);
         }
@@ -69,7 +64,9 @@ public class ShoppingCartController {
                                     @RequestParam Integer quantity,
                                     HttpServletRequest request) {
 
-        initializeOrder(request);
+
+
+        orderService.initializeOrder(request);
         Optional<BrandedDrug> brandedDrug = brandedDrugService.findByKey(new BrandedDrugKey(brandedDrugId, manufacturerName, genericDrugId));
         if (brandedDrug.isPresent()) {
             Order order = (Order) request.getSession().getAttribute("order");
@@ -92,19 +89,15 @@ public class ShoppingCartController {
     @PostMapping("/checkout")
     @Transactional
     public String checkout(HttpServletRequest request) {
-        Bill bill = (Bill) request.getSession().getAttribute("bill");
-        bill.setDateTime(LocalDateTime.now());
-        bill.setPaymentStatus(true);
-        billService.save(bill);
-        Order order = (Order) request.getSession().getAttribute("order");
-        order.setDateTime(LocalDateTime.now());
-        order.setOrderStatus(ORDER_STATUS.FINISHED);
-        orderService.save(order);
+
+
+        orderService.checkoutOrder(request);
+
         HashMap<Long, HashSet<OrderShoppingCart>> map = (HashMap<Long, HashSet<OrderShoppingCart>>) request.getSession().getAttribute("map");
 
         map.forEach((key, value) -> value.forEach(element -> {
-            BrandedDrugStockKey brandedDrugStockKey = new BrandedDrugStockKey(element.getOrderShoppingCartKey().getBrandedDrugKey(), key);
-            Optional<BrandedDrugStock> brandedDrugStock = brandedDrugStockService.findByKey(brandedDrugStockKey);
+            Optional<BrandedDrugStock> brandedDrugStock = brandedDrugStockService.findByKey(
+                    new BrandedDrugStockKey(element.getOrderShoppingCartKey().getBrandedDrugKey(), key));
             brandedDrugStock.ifPresent(drugStock -> brandedDrugStockService.edit(drugStock, element));
 
 
@@ -128,19 +121,7 @@ public class ShoppingCartController {
         return "redirect:/all-products";
     }
 
-    @Transactional
-    public void initializeOrder(HttpServletRequest request) {
-        if (request.getSession().getAttribute("order") == null && request.getSession().getAttribute("bill") == null) {
-            Patient user = (Patient) request.getSession().getAttribute("patient");
-            Bill bill = new Bill(LocalDateTime.now(), user, false);
-            Order order = new Order(LocalDateTime.now(), user, bill, ORDER_STATUS.CREATED);
-            billService.save(bill);
-            orderService.save(order);
-            request.getSession().setAttribute("bill", bill);
-            request.getSession().setAttribute("order", order);
-            request.getSession().setAttribute("map", new HashMap<Long, HashSet<OrderShoppingCart>>());
-        }
-    }
+
 
 
 }

@@ -34,7 +34,7 @@ public class RegisterController {
                            @RequestParam String password,
                            @RequestParam String streetName,
                            @RequestParam Integer flatNumber,
-                           @RequestParam HttpServletRequest request)
+                           HttpServletRequest request)
     {
         Patient patient = new Patient(username, firstName, lastName, email, password, streetName, flatNumber);
         patientService.save(patient);

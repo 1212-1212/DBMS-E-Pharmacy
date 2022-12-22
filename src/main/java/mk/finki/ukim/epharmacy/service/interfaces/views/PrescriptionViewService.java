@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PrescriptionViewService {
 
-    List<PrescriptionView> findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
+    List<PrescriptionView> findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String text);
 
     List<PrescriptionView> findPrescriptionViewsByGenericName(String genericName);
 

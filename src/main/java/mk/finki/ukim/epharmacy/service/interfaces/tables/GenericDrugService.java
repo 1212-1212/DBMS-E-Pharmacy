@@ -3,6 +3,7 @@ package mk.finki.ukim.epharmacy.service.interfaces.tables;
 import mk.finki.ukim.epharmacy.model.tables.GenericDrug;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface GenericDrugService {
@@ -14,6 +15,8 @@ public interface GenericDrugService {
     Optional<GenericDrug> findById(Long id);
 
     List<String> mapGenericDrugObjectsToGenericNames(List<GenericDrug> list);
+
+    Map<Long, String> toMap();
 
 
 

@@ -6,6 +6,7 @@ import mk.finki.ukim.epharmacy.service.interfaces.tables.GenericDrugService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -36,5 +37,15 @@ public class GenericDrugServiceImplementation implements GenericDrugService {
     @Override
     public List<GenericDrug> findAll() {
         return genericDrugRepository.findAll();
+    }
+
+    @Override
+    public Map<Long, String> toMap() {
+        return findAll()
+                .stream()
+                .collect(Collectors.toMap(
+                        GenericDrug::getGenericDrugId,
+                        GenericDrug::getGeneric
+                ));
     }
 }

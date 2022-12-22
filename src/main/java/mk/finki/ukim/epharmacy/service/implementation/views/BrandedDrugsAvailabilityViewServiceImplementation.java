@@ -40,42 +40,41 @@ public class BrandedDrugsAvailabilityViewServiceImplementation implements Brande
 
     @Override
     public List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPriceBetween(Float low, Float high) {
+        if(low == null || low.isNaN())
+            low = (float) 0;
+        if(high == null || low.isNaN())
+            high = Float.MAX_VALUE;
         return brandedDrugsAvailabilityRepository.findBrandedDrugsAvailabilityViewByPriceBetween(low, high);
     }
 
+
     @Override
-    public List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPharmacyName(String pharmacyName) {
-        return brandedDrugsAvailabilityRepository.findBrandedDrugsAvailabilityViewByPharmacyName(pharmacyName);
+    public List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPharmacyNameContainingIgnoreCase(String pharmacyName) {
+        if(pharmacyName == null || pharmacyName.isEmpty() || pharmacyName.isBlank())
+            return findAll();
+        return brandedDrugsAvailabilityRepository.findBrandedDrugsAvailabilityViewByPharmacyNameContainingIgnoreCase(pharmacyName);
     }
 
     @Override
-    public List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityBySearchText(String text) {
-
-        return brandedDrugsAvailabilityRepository.findAll()
-                .stream()
-                .filter(drug -> drug.getBrandedDrugName().contains(text) ||
-                        drug.getKey().getBrandedDrugKey().getManufacturerName().contains(text) || drug.getPharmacyName().contains(text) ||
-                        drug.getStreetName().contains(text))
-                .collect(Collectors.toList());
+    public List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByBrandedDrugNameContainingIgnoreCase(String brandedName) {
+        if(brandedName == null || brandedName.isBlank() || brandedName.isEmpty())
+            return findAll();
+        return brandedDrugsAvailabilityRepository.findBrandedDrugsAvailabilityViewByBrandedDrugNameContainingIgnoreCase(brandedName);
     }
 
-    public List<BrandedDrugsAvailabilityView> findByPriceRangeQuantityAndText(Integer quantity, Float low, Float high, String text, String genericName) {
-
+    @Override
+    public List<BrandedDrugsAvailabilityView> findByPriceRangeQuantityAndTextAndPharmacyName(Integer quantity, Float low, Float high, String brandedName, String genericName, String pharmacyName) {
         Set<BrandedDrugsAvailabilityView> quantitySet = new HashSet<>(findBrandedDrugsAvailabilityViewByQuantityGreaterThan(quantity));
         Set<BrandedDrugsAvailabilityView> priceRangeSet = new HashSet<>(findBrandedDrugsAvailabilityViewByPriceBetween(low, high));
-        Set<BrandedDrugsAvailabilityView> textSet = new HashSet<>(findBrandedDrugsAvailabilityBySearchText(text));
+        Set<BrandedDrugsAvailabilityView> brandedDrugNameSet = new HashSet<>(findBrandedDrugsAvailabilityViewByBrandedDrugNameContainingIgnoreCase(brandedName));
         Set<BrandedDrugsAvailabilityView> genericTextSet = new HashSet<>(findBrandedDrugsAvailabilityViewByGenericName(genericName));
+        Set<BrandedDrugsAvailabilityView> pharmacyNameSet = new HashSet<>(findBrandedDrugsAvailabilityViewByPharmacyNameContainingIgnoreCase(pharmacyName));
         quantitySet.retainAll(priceRangeSet);
-        quantitySet.retainAll(textSet);
+        quantitySet.retainAll(brandedDrugNameSet);
         quantitySet.retainAll(genericTextSet);
-        return quantitySet.stream().toList();
-    }
-
-    @Override
-    public List<BrandedDrugsAvailabilityView> findByPriceRangeQuantityAndTextAndPharmacyName(Integer quantity, Float low, Float high, String text, String genericName, String pharmacyName) {
-       Set<BrandedDrugsAvailabilityView> result = new HashSet<>(findByPriceRangeQuantityAndText(quantity, low, high, text, genericName));
-       result.retainAll(findBrandedDrugsAvailabilityViewByPharmacyName(pharmacyName));
-       return result.stream().toList();
+        quantitySet.retainAll(pharmacyNameSet);
+       return quantitySet.stream().toList();
 
     }
+
 }

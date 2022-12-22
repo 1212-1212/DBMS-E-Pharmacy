@@ -12,7 +12,8 @@ public interface BrandedDrugsAvailabilityRepository extends JpaRepository<Brande
     List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByQuantityGreaterThan(int quantity);
     List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPriceBetween(float low, float high);
 
-    List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPharmacyName(String pharmacyName);
+    List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByBrandedDrugNameContainingIgnoreCase(String brandedName);
+    List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByPharmacyNameContainingIgnoreCase(String pharmacyName);
 
     List<BrandedDrugsAvailabilityView> findBrandedDrugsAvailabilityViewByGenericName(String genericName);
 }

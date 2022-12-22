@@ -36,9 +36,8 @@ public class BrandedDrugsController {
     @GetMapping
     public String getPage(@RequestParam(required = false) String text, Model model) {
 
-        text = text == null || text.isEmpty() || text.isBlank() ? "" : text;
-        model.addAttribute("brandedDrugs", text.isEmpty() ? brandedDrugsViewService.findAll()
-                : brandedDrugsViewService.findBrandedDrugsViewByBrandedDrugNameContainingIgnoreCaseOrGenericContainingIgnoreCase(text, text));
+        model.addAttribute("brandedDrugs",
+                 brandedDrugsViewService.findBrandedDrugsViewByBrandedDrugNameContainingIgnoreCaseOrGenericContainingIgnoreCase(text, text));
         return "all-products";
 
     }
@@ -61,17 +60,14 @@ public class BrandedDrugsController {
     public String getAvailabilityInPharmaciesPage(@RequestParam(required = false) Float priceLow,
                                                   @RequestParam(required = false) Float priceHigh,
                                                   @RequestParam(required = false) Integer quantity,
-                                                  @RequestParam(required = false) String searchText,
+                                                  @RequestParam(required = false) String brandedName,
+                                                  @RequestParam(required = false) String pharmacyName,
                                                   @RequestParam(required = false) String genericName, Model model) {
 
         model.addAttribute("generics", genericDrugService.findAll());
-        model.addAttribute("availableBrandedDrugs", brandedDrugsAvailabilityViewService.findAll());
-        priceLow = priceLow == null || priceLow.isNaN() ? Float.MIN_VALUE : priceLow;
-        priceHigh = priceHigh == null || priceHigh.isNaN() ? Float.MAX_VALUE : priceHigh;
-
-        searchText = searchText == null || searchText.isBlank() ? "" : searchText;
         model.addAttribute("availableBrandedDrugs", brandedDrugsAvailabilityViewService
-                .findByPriceRangeQuantityAndText(quantity, priceLow, priceHigh, searchText, genericName));
+                .findByPriceRangeQuantityAndTextAndPharmacyName(quantity, priceLow, priceHigh, brandedName, genericName, pharmacyName));
+
         return "available-products-by-pharmacy-name";
 
     }

@@ -24,6 +24,10 @@ public class BrandedDrugsViewServiceImplementation implements  BrandedDrugsViewS
 
     @Override
     public List<BrandedDrugsView> findBrandedDrugsViewByBrandedDrugNameContainingIgnoreCaseOrGenericContainingIgnoreCase(String brandedNameText, String genericNameText) {
+        if(brandedNameText == null || brandedNameText.isEmpty() || brandedNameText.isBlank())
+            brandedNameText = "";
+        if(genericNameText == null || genericNameText.isEmpty() || brandedNameText.isBlank())
+            genericNameText = "";
         return brandedDrugsViewRepository.findBrandedDrugsViewByBrandedDrugNameContainingIgnoreCaseOrGenericNameContainingIgnoreCase(brandedNameText, genericNameText);
     }
 

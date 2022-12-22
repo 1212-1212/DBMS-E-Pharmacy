@@ -17,10 +17,14 @@ public class PrescriptionViewServiceImplementation implements PrescriptionViewSe
     public PrescriptionViewServiceImplementation(PrescriptionViewRepository prescriptionViewRepository) {
         this.prescriptionViewRepository = prescriptionViewRepository;
     }
+
     @Override
-    public List<PrescriptionView> findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName)
-    {
-        return prescriptionViewRepository.findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(firstName, lastName);
+    public List<PrescriptionView> findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String text) {
+        if(text == null || text.isBlank() || text.isEmpty())
+        {
+            return findAll();
+        }
+        return prescriptionViewRepository.findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(text,text);
     }
 
     @Override
@@ -30,8 +34,8 @@ public class PrescriptionViewServiceImplementation implements PrescriptionViewSe
 
     @Override
     public List<PrescriptionView> findPrescriptionViewsByPatientTextOrGenericNameOrMarkAsUsed(String text, String genericName, Boolean markAsUsed) {
-        Set<PrescriptionView> set =  new HashSet<>(findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(text, text));
-        set.retainAll(genericName.isEmpty() ?findAll() :findPrescriptionViewsByGenericName(genericName));
+        Set<PrescriptionView> set =  new HashSet<>(findPrescriptionViewsByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(text));
+        set.retainAll(findPrescriptionViewsByGenericName(genericName));
         set.retainAll(findPrescriptionViewsByMarkedAsUsed(markAsUsed));
         return set.stream().toList();
     }
@@ -45,6 +49,8 @@ public class PrescriptionViewServiceImplementation implements PrescriptionViewSe
 
     @Override
     public List<PrescriptionView> findPrescriptionViewsByGenericName(String genericName) {
+        if(genericName == null || genericName.equals("All") || genericName.isEmpty() || genericName.isBlank())
+            return findAll();
         return prescriptionViewRepository.findPrescriptionViewsByGenericName(genericName);
     }
 }

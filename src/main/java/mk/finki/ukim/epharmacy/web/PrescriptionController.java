@@ -27,11 +27,8 @@ public class PrescriptionController {
                           Model model) {
 
         model.addAttribute("generics", genericDrugService.findAll());
-        System.out.println(markedAsUsed);
-        nameOrSurname = nameOrSurname == null || nameOrSurname.isEmpty() || nameOrSurname.isBlank() ? "" : nameOrSurname;
-        genericName = genericName == null || genericName.equals("All") ? "" : genericName;
-        model.addAttribute("prescriptions", nameOrSurname.isEmpty() && genericName.isEmpty()  && markedAsUsed == null?
-                prescriptionViewService.findAll() : prescriptionViewService.findPrescriptionViewsByPatientTextOrGenericNameOrMarkAsUsed(nameOrSurname, genericName, markedAsUsed));
+        model.addAttribute("prescriptions",  prescriptionViewService
+                .findPrescriptionViewsByPatientTextOrGenericNameOrMarkAsUsed(nameOrSurname, genericName, markedAsUsed));
         return "prescriptions";
     }
 }
