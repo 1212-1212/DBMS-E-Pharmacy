@@ -29,15 +29,34 @@
 
 </div>
 <h1  th:text="Welcome + ${session.patient != null ? ' '+session.patient.getUsername() : ' Guest'}"></h1>
+<div th:if="${hasError}">
+    <p th:text="${error}"></p>
+</div>
 <form action="/all-products">
 <label for="text">Search</label><input type="text"  id="text" name="text">
     <button type="submit">Search</button>
 </form>
+
 <button>
 <a href="/all-products/add-product">Add product</a>
 </button>
 <button>
     <a href="/all-products/availability">Available products in pharmacies</a>
+</button>
+<button>
+    <a href="/aggregations/availability-in-pharmacy-by-generic">Available generics in pharmacies</a>
+</button>
+<button>
+    <a href="/aggregations/monthly-profit">Monthly profit</a>
+</button>
+<button>
+    <a href="/aggregations/most-sold-product-monthly">Most sold product monthly</a>
+</button>
+<button>
+    <a href="/bills-and-orders">All payments</a>
+</button>
+<button>
+    <a href="/prescriptions">All prescriptions</a>
 </button>
 <table id="table">
     <thead>

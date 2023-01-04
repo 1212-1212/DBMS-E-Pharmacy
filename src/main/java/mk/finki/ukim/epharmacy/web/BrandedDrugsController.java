@@ -34,7 +34,13 @@ public class BrandedDrugsController {
     }
 
     @GetMapping
-    public String getPage(@RequestParam(required = false) String text, Model model) {
+    public String getPage(@RequestParam(required = false) String text, Model model,
+                          @RequestParam(required = false) String error) {
+        if(error!=null)
+        {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
 
         model.addAttribute("brandedDrugs",
                  brandedDrugsViewService.findBrandedDrugsViewByBrandedDrugNameContainingIgnoreCaseOrGenericContainingIgnoreCase(text, text));

@@ -3,6 +3,7 @@ package mk.finki.ukim.epharmacy.web;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import mk.finki.ukim.epharmacy.model.enumerations.ORDER_STATUS;
+import mk.finki.ukim.epharmacy.model.exceptions.NoValidPrescriptionFoundException;
 import mk.finki.ukim.epharmacy.model.primaryKeys.BrandedDrugKey;
 import mk.finki.ukim.epharmacy.model.primaryKeys.BrandedDrugStockKey;
 import mk.finki.ukim.epharmacy.model.primaryKeys.OrderShoppingCartKey;
@@ -43,7 +44,9 @@ public class ShoppingCartController {
 
     @GetMapping
     public String getPage(HttpServletRequest request, Model model) {
+
         orderService.initializeOrder(request);
+
         if (request.getSession().getAttribute("map") != null) {
             Map<Long, HashSet<OrderShoppingCart>> map = (Map<Long, HashSet<OrderShoppingCart>>) request.getSession().getAttribute("map");
             Set<OrderShoppingCart> products = orderShoppingCartService.flatMapToSet(map.values().stream());
@@ -88,7 +91,7 @@ public class ShoppingCartController {
 
     @PostMapping("/checkout")
     @Transactional
-    public String checkout(HttpServletRequest request) {
+    public String checkout(HttpServletRequest request, Model model) {
 
 
         orderService.checkoutOrder(request);
@@ -110,14 +113,19 @@ public class ShoppingCartController {
                     optionalPrescription.get().setMarkedAsUsed(true);
                     prescriptionService.save(optionalPrescription.get());
                 } else {
-                    throw new RuntimeException();
+                    model.addAttribute("hasError", true);
+                    model.addAttribute("error", new NoValidPrescriptionFoundException().getMessage());
+
                 }
             }
         }));
         request.getSession().setAttribute("total", 0);
         request.getSession().setAttribute("order", null);
         request.getSession().setAttribute("bill", null);
-
+        if(model.containsAttribute("hasError"))
+        {
+            return String.format("redirect:/all-products?error=%s", new NoValidPrescriptionFoundException().getMessage());
+        }
         return "redirect:/all-products";
     }
 

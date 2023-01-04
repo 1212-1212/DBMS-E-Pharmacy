@@ -30,6 +30,10 @@ public class LoginController {
     @GetMapping
     public String getPage(Model model, @RequestParam(required = false) String error)
     {
+        if(error != null) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         return "login";
     }
 
@@ -45,8 +49,6 @@ public class LoginController {
             patient.ifPresent(value -> request.getSession().setAttribute("patient", value));
             return "redirect:/all-products";
         } catch (InvalidLoginCredentialsException e) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error",  e.getMessage());
             return "redirect:/login?error=" + e.getMessage();
         }
     }

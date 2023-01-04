@@ -14,12 +14,12 @@ public class MostSoldProductMonthlyViewKey implements Serializable {
     private Integer month;
     private Long brandedDrugId;
     private String manufacturerName;
-    private String genericDrugId;
+    private Long genericDrugId;
 
     public MostSoldProductMonthlyViewKey() {
     }
 
-    public MostSoldProductMonthlyViewKey(Integer month, Long brandedDrugId, String manufacturerName, String genericDrugId) {
+    public MostSoldProductMonthlyViewKey(Integer month, Long brandedDrugId, String manufacturerName, Long genericDrugId) {
         this.month = month;
         this.brandedDrugId = brandedDrugId;
         this.manufacturerName = manufacturerName;
